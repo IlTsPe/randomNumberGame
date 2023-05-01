@@ -12,7 +12,6 @@ const input = document.querySelector('.number-input'),
 let score = 20;
 
 
-
 function generator() {
 	let number = Math.trunc((Math.random() * 20) + 1);
 	return number;
@@ -29,7 +28,6 @@ function setAttribute() {
 
 function userWin() {
 	guessMS.textContent = 'Правильно!';
-	highscore.textContent = score;
 	question.textContent = input.value;
 	body.style.backgroundColor = 'rgb(24, 183, 32)';
 	setAttribute();
@@ -41,12 +39,12 @@ function criticalBalance() {
 			this.style.color = 'red';
 			this.style.borderColor = 'red';
 			check.setAttribute('disabled', '');
-			question.textContent = 'от 1 до 20'
+			question.textContent = 'от 1 до 20';
 		} else {
 			this.style.color = 'white';
 			this.style.borderColor = 'white';
 			check.removeAttribute('disabled', '');
-			question.textContent = '???'
+			question.textContent = '???';
 		}
 		this.value == '' ? (this.style.borderColor = 'white', this.style.color = 'white') : false;
 	})
@@ -58,13 +56,19 @@ check.addEventListener('click', () => {
 	if (score > 1) {
 		input.style.borderColor = 'white'
 		input.value > secretNumber ? guessMS.textContent = 'Много!' : guessMS.textContent = 'Мало!';
-		input.value == secretNumber ? userWin() : score--;
+		if (input.value == secretNumber) {
+			userWin();
+			Number(scoreInner.textContent) >= Number(highscore.textContent) ? highscore.textContent = scoreInner.textContent : false;
+			localStorage.setItem('bestScore', highscore.textContent);
+		} else {
+			score--;
+		}
 		scoreInner.textContent = score;
 	} else {
 		guessMS.textContent = 'Вы проиграли!';
 		scoreInner.textContent = '0';
 		question.textContent = secretNumber;
-		body.style.backgroundColor = 'rgb(181, 25, 25)'
+		body.style.backgroundColor = 'rgb(181, 25, 25)';
 		setAttribute();
 	}
 });
@@ -72,7 +76,7 @@ check.addEventListener('click', () => {
 again.addEventListener('click', () => {
 	question.textContent = '???';
 	question.style.width = '25rem';
-	input.value = '';
+	input.value = 1;
 	check.removeAttribute('disabled');
 	input.removeAttribute('disabled', '');
 	guessMS.textContent = 'Начни угадывать';
@@ -82,3 +86,13 @@ again.addEventListener('click', () => {
 	score = 20;
 	console.log(secretNumber);
 })
+
+
+document.querySelector('.remove').addEventListener('click', () => {
+	localStorage.removeItem('bestScore');
+	highscore.textContent = 0;
+});
+
+if (localStorage.getItem('bestScore')) {
+	highscore.textContent = localStorage.getItem('bestScore')
+}
