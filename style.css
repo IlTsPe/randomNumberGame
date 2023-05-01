@@ -121,10 +121,10 @@ h1 {
 	height: 3rem;
 }
 
-.label-score {
-	margin-bottom: 2rem;
-}
-
 .label-highscore {
 	margin-bottom: 5rem;
+}
+
+.label-score {
+	margin-bottom: 2rem;
 }

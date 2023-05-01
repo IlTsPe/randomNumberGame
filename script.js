@@ -87,12 +87,11 @@ again.addEventListener('click', () => {
 	console.log(secretNumber);
 })
 
+if (localStorage.getItem('bestScore')) {
+	highscore.textContent = localStorage.getItem('bestScore')
+}
 
 document.querySelector('.remove').addEventListener('click', () => {
 	localStorage.removeItem('bestScore');
 	highscore.textContent = 0;
 });
-
-if (localStorage.getItem('bestScore')) {
-	highscore.textContent = localStorage.getItem('bestScore')
-}
